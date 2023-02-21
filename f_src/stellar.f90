@@ -1457,16 +1457,17 @@ it = 0
 e1 = mod(m,twopi) + e*sin(m) + e*e*sin(2.0d0*m)/2.0d0
 test = 1.0d0
 do while (test > etol)
- it = it + 1
- if (it .gt. itmax) then
-  print *,'function eanom failed to converge'
-  print *,m,e,e0,e1,test
-  stop
- endif
- e0 = e1
- e1 = e0 + (m-(e0 - e*sin(e0)))/(1.0d0 - e*cos(e0))
- test = abs(e1 - e0)
-end do
+  it = it + 1
+  if (it .gt. itmax) then
+   print *,'function eanom failed to converge'
+   print *,m,e,e0,e1,test
+   eanom = bad_dble
+   return
+  endif
+  e0 = e1
+  e1 = e0 + (m-(e0 - e*sin(e0)))/(1.0d0 - e*cos(e0))
+  test = abs(e1 - e0)
+ end do
 e1 = mod(e1, twopi)
 if (e1 < 0.0d0) then
  e1 = e1 + twopi
